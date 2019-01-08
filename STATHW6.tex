@@ -1,0 +1,401 @@
+\documentclass[oneside,10pt]{article}
+\usepackage[top=0.5in, bottom=0.5in, right=1in, left=1in]{geometry}
+\setlength\parindent{0pt}
+\usepackage{amssymb, amsmath, mathrsfs, amsthm}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{color,xcolor}
+\usepackage{float}
+\usepackage{changepage}
+\usepackage{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\usepackage{longfigure}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+\pgfplotsset{width=10cm,compat=newest}
+\usepackage{tikz}
+\usetikzlibrary{plotmarks,calc} 
+\usepackage[framemethod=TikZ]{mdframed}
+\title{MATH 5531 Statistical Methods I HW 6}
+\author{Russell Land}
+\date{December 3, 2018}
+\usepackage[color]{statrep}
+\def\SRrootdir{/folders/myshortcuts/HW_6}
+\def\SRmacropath{/folders/myshortcuts/HW_6/statrep_macros.sas}
+\def\SRdefaultdests{latex}
+\pgfplotstableread{
+X1 Y
+3.5	33.2
+5.3	40.3
+5.1	38.7
+5.8	46.8
+4.2	41.4
+6	37.5
+6.8	39
+5.5	40.7
+3.1	30.1
+7.2	52.9
+4.5	38.2
+4.9	31.8
+8	43.3
+6.5	44.1
+6.6	42.8
+3.7	33.6
+6.2	34.2
+7	48
+4	38
+4.5	35.9
+5.9	40.4
+5.6	36.8
+4.8	45.2
+3.9	35.1
+}\scatterone
+\pgfplotstableread{
+X2 Y
+9	33.2
+20	40.3
+18	38.7
+33	46.8
+31	41.4
+13	37.5
+25	39
+30	40.7
+5	30.1
+47	52.9
+25	38.2
+11	31.8
+23	43.3
+35	44.1
+39	42.8
+21	33.6
+7	34.2
+40	48
+35	38
+23	35.9
+33	40.4
+27	36.8
+34	45.2
+15	35.1
+}\scattertwo
+\pgfplotstableread{
+X3 Y
+6.1	33.2
+6.4	40.3
+7.4	38.7
+6.7	46.8
+7.5	41.4
+5.9	37.5
+6	39
+4	40.7
+5.8	30.1
+8.3	52.9
+5	38.2
+6.4	31.8
+7.6	43.3
+7	44.1
+5	42.8
+4.4	33.6
+5.5	34.2
+7	48
+6	38
+3.5	35.9
+4.9	40.4
+4.3	36.8
+8	45.2
+5	35.1
+}\scatterthree
+\pgfplotstableread{
+X Y
+32.456648	0.743352
+38.367218	1.932782
+38.790634	-0.090634
+43.487622	3.312378
+42.109594	-0.709594
+36.243202	1.256798
+41.115206	-2.115206
+38.71533	1.98467
+30.342276	-0.242276
+51.596038	1.303962
+37.29124	0.90876
+35.03034	-3.23034
+43.855058	-0.555058
+45.28934	-1.18934
+44.111662	-1.311662
+34.349496	-0.749496
+34.018274	0.181726
+47.4495	0.5505
+41.24481	-3.24481
+34.71652	1.18348
+41.28044	-0.88044
+38.246606	-1.446606
+44.380276	0.819724
+33.412048	1.687952
+}{\scatterfour}
+\pgfplotstableread{
+X Y
+-3.24481	-2.036834132
+-3.23034	-1.534120544
+-2.115206	-1.258161561
+-1.446606	-1.054472452
+-1.311662	-0.887146559
+-1.18934	-0.741594044
+-0.88044	-0.61029461
+-0.749496	-0.488776411
+-0.709594	-0.37409541
+-0.555058	-0.264146977
+-0.242276	-0.157310685
+-0.090634	-0.05224518
+0.181726	0.05224518
+0.5505	0.157310685
+0.743352	0.264146977
+0.819724	0.37409541
+0.90876	0.488776411
+1.18348	0.61029461
+1.256798	0.741594044
+1.303962	0.887146559
+1.687952	1.054472452
+1.932782	1.258161561
+1.98467	1.534120544
+3.312378	2.036834132
+}\scatterfive
+
+\begin{document}
+\maketitle
+	\begin{mdframed}
+	\texttt{
+		\hspace{-4mm} 33.2 \quad 3.5 \ \quad 9.0 \quad 6.1\\
+		40.2 \quad 5.3 \quad 20.0 \quad 6.4\\
+		38.7 \quad 5.1 \quad 18.0 \quad 7.4\\
+		46.8 \quad 5.8 \quad 33.0 \quad 6.7\\
+		41.4 \quad 4.2 \quad 31.0 \quad 7.5\\
+		37.5 \quad 6.0 \quad 13.0 \quad 5.9\\
+		39.0 \quad 6.8 \quad 25.0 \quad 6.0\\
+		40.7 \quad 5.5 \quad 30.0 \quad 4.0\\
+		30.1 \quad 3.1 \quad \ 5.0 \quad 5.8\\
+		52.9 \quad 7.2 \quad 47.0 \quad 8.3\\
+		38.2 \quad 4.5 \quad 25.0 \quad 5.0\\
+		31.8 \quad 4.9 \quad 11.0 \quad 6.4\\
+		43.3 \quad 8.0 \quad 23.0 \quad 7.6\\
+		44.1 \quad 6.5 \quad 35.0 \quad 7.0\\
+		42.8 \quad 6.6 \quad 39.0 \quad 5.0\\
+		33.6 \quad 3.7 \quad 21.0 \quad 4.4\\
+		34.2 \quad 6.2 \quad \ 7.0 \quad 5.5\\
+		48.0 \quad 7.0 \quad 40.0 \quad 7.0\\
+		38.0 \quad 4.0 \quad 35.0 \quad 6.0\\
+		35.9 \quad 4.5 \quad 23.0 \quad 3.5\\
+		40.4 \quad 5.9 \quad 33.0 \quad 4.9\\
+		36.8 \quad 5.6 \quad 27.0 \quad 4.3\\
+		45.2 \quad 4.8 \quad 34.0 \quad 8.0\\
+		35.1 \quad 3.9 \quad 15.0 \quad 5.0\\[2mm]
+		A researcher in a scientific foundation wished to evaluate the relation\\ between intermediate and senior level annual salaries of bachelor's and\\ master's level mathematicians (Y, in thousand dollars) and an index of work quality (X1), the number of years of experience (X2), and an index of\\ publication (X3). The data for a sample of 24 bachelor's and master's\\ level mathematicians are given above.Assume that the regression model for\\ the three predictors variables with independent normal error terms is\\ appropriate.
+			\begin{enumerate}
+				\item Obtain the least squares estimated regression equation.
+				\item Calculate the coefficient of determination and interpret the measure. 
+				\item Test whether there is a significant regression relation. State the\\ alternatives. decision rule and conclusion. What does your test imply about the regression coefficients? What is the p-value of the test?
+				\item Obtain a 95\% confidence interval for each of the regression\\ coefficients.
+				\item Obtain a plot of the residuals against each predictor variable.
+				\item Prepare a normal probability plot.
+				\item Analyze your plots and summarize your findings.
+			\end{enumerate}
+		}
+	\end{mdframed} \newpage
+	To answer questions 1-7 we will be using the SAS Studio Software, University Edition. In this document we will implement a \LaTeX \hspace{0.5mm} package named StatRep. This will allow us to display our SAS code in our \TeX \hspace{0.5mm} document neatly, and will also allow us to compile our SAS results straight into the \LaTeX \hspace{0.5mm} document. Once we present our data below, I will follow up with an analysis of the data. We will begin by creating a data set in the program, and then run the actually procedures for each test. Below shows the data set \texttt{Evaluations} being created:
+	\begin{Datastep}[first=15, last=5] 
+		title 'Mathematician Evaluations';
+
+		data Evaluation;
+		
+			/* 	Bachelor and Master Level Mathematician Data
+				Y represents annual salaries in thousands of dollars
+				X1 represents an idex in quality of work
+				X2 represents the number of years of experience
+				X3 represents an index of publication success */
+				
+		input Y X1 X2 X3;
+		datalines;
+		33.2 3.5  9.0 6.1
+		40.2 5.3 20.0 6.4
+		38.7 5.1 18.0 7.4
+		46.8 5.8 33.0 6.7
+		41.4 4.2 31.0 7.5
+		37.5 6.0 13.0 5.9
+		39.0 6.8 25.0 6.0
+		40.7 5.5 30.0 4.0
+		30.1 3.1  5.0 5.8
+		52.9 7.2 47.0 8.3
+		38.2 4.5 25.0 5.0
+		31.8 4.9 11.0 6.4
+		43.3 8.0 23.0 7.6
+		44.1 6.5 35.0 7.0
+		42.8 6.6 39.0 5.0
+		33.6 3.7 21.0 4.4
+		34.2 6.2  7.0 5.5
+		48.0 7.0 40.0 7.0
+		38.0 4.0 35.0 6.0
+		35.9 4.5 23.0 3.5
+		40.4 5.9 33.0 4.9
+		36.8 5.6 27.0 4.3
+		45.2 4.8 34.0 8.0
+		35.1 3.9 15.0 5.0
+		
+		run;
+	\end{Datastep}
+	Now that our data set is stored as \texttt{Evaluation}, we can run the appropriate procedures, including \texttt{glm} and \texttt{reg}. We are going to use the \texttt{glm} procedure because it uses the method of least squares to fit general linear models. The \texttt{reg} procedure will help us get the data concerning the residuals. Below is the SAS code for our analyses:
+	\begin{Sascode}[store=math]
+		proc print;
+
+		proc glm;
+			model Y=X1 X2 X3 / clparm ;
+	
+		proc reg;
+			model Y=X1 X2 X3 / cli ;
+
+		run;
+	\end{Sascode}
+	\Listing[store=math,
+		caption={Statistics for Regression Analysis}]{matha}
+   
+	\Graphic[store=math,
+		scale=1,
+		caption={Residual Analysis}]{mathb} \newpage
+	Answers to questions 1-7:
+		\begin{adjustwidth}{2.5em}{0pt}
+			Before we can start a regression analysis, we have to check our assumptions for linearity. We can make scatter plots to check this:
+			\begin{center}\hspace*{-1cm}
+				\begin{tikzpicture}
+					\begin{axis}[
+					scale=0.5,
+					title=\texttt{X1} versus \texttt{Y},
+    					xmin=2, xmax=10,
+    					ymin=20, ymax=60,
+    					xmajorgrids=true,
+    					ymajorgrids=true,
+    					grid style=dashed,
+    					yticklabel style={
+        					/pgf/number format/fixed,
+        					/pgf/number format/precision=5
+						}
+					]
+				\addplot [only marks, mark = *] table {\scatterone};
+				\addplot [thin, blue] table[
+   					 y={create col/linear regression={y=Y}}
+					]
+				{\scatterone};
+				\end{axis}
+				\end{tikzpicture}\hspace*{5mm}
+				\begin{tikzpicture}
+					\begin{axis}[
+					scale=0.5,
+					title=\texttt{X2} versus \texttt{Y},
+    					xmin=0, xmax=50,
+    					ymin=20, ymax=60,
+    					xmajorgrids=true,
+    					ymajorgrids=true,
+    					grid style=dashed,
+    					yticklabel style={
+        					/pgf/number format/fixed,
+        					/pgf/number format/precision=5
+						}
+					]
+				\addplot [only marks, mark = *] table {\scattertwo};
+				\addplot [thin, blue] table[
+   					 y={create col/linear regression={y=Y}}
+					]
+				{\scattertwo};
+				\end{axis}
+				\end{tikzpicture}\hspace*{9mm}
+				\begin{tikzpicture}
+					\begin{axis}[
+					scale=0.5,
+					title=\texttt{X3} versus \texttt{Y},
+    					xmin=2, xmax=10,
+    					ymin=20, ymax=60,
+    					xmajorgrids=true,
+    					ymajorgrids=true,
+    					grid style=dashed,
+    					yticklabel style={
+        					/pgf/number format/fixed,
+        					/pgf/number format/precision=5
+						}
+					]
+				\addplot [only marks, mark = *] table {\scatterthree};
+				\addplot [thin, blue] table[
+   					 y={create col/linear regression={y=Y}}
+					]
+				{\scatterthree};
+				\end{axis}
+				\end{tikzpicture}
+			\end{center}
+			From here we can see that the scatter plots show a linear trend. We can assume linearity.\\[1mm]
+			From the SAS results, we can see that our least squares estimated regression equation can be obtained from one of the tables. We just need to take the parameters from the table and these will correspond to $\beta_0$, $\beta_1$, $\beta_2$, and $\beta_3$. The regression equation is: $$Y=17.84740+1.10282(X1)+0.32175(X2)+1.28748(X3)$$ where $Y$ is the dependent variable of Salary and $X1$, $X2$, and $X3$ are the  independent variables for quality of work, age, and quality of publications, respectively.\\[1mm]
+			The coefficient of determination is calculated using the correlation coefficient. From looking at the scatter plots, we can see there will be positive correlation between each plot. The second graph appears to have the tightest fitting data as well. Our SAS results compute our $R^2$ value. The coefficient of determination is always between 0 and 1 and tells us what percentage of the data can be predicted confidently from our regression analysis. In other words, an $R^2$ value of 1 tells us that we are 100\% confident that our regression analysis can predict future value. The coefficient of determination for our analysis was 0.9114 or 91.14\%. This implies that we are 91.14\% confident that our regression analysis can predict the salary.\\[1mm]
+			Now we want to test if there is significant regression relation. We can first state the hypotheses:
+				\begin{align*}
+					&H_0: \beta_j=0 \quad \text{for }j=0,1,2,3\\
+					& \hspace{2mm}\text{vs}\\
+					&H_A: \beta_j \neq 0 \quad \text{for }j=0,1,2,3
+				\end{align*}
+			From our SAS results and the \texttt{glm} procedure we obtained an $F$-value of 68.56 for an ANOVA test. This is our test statistic for our test of significance. This leads us to a $p$-value of $<0.0001$ according to our results. The real value is $3.3\cdot 10^{-8}$ which is nearly 0. Thus, our decision rule is rejecting the null hypothesis in favor of the alternative and say that there is significant regression relation for our model. In other words, our regression model is ``good" at predicting values of $Y$.\\[1mm]
+			Next, we need to obtain 95\% confidence intervals for each of the regression coefficients. We can use the SAS procedure \texttt{glm}, with the \texttt{clparm} to obtain the confidence intervals for the parameters. The values from the results are
+				\begin{center}
+					\renewcommand{\arraystretch}{1.2}
+					\begin{tabular}{ c c c c }
+						\hline
+						Parameter & Estimate & \multicolumn{2}{c}{95\% Confidence Limits}\\
+						\hline
+						Intercept & 17.84740401 & 13.68435977 & 22.01044826\\
+						X1 & 1.10282189 & 0.41745050 & 1.78819327\\
+						X2 & 0.32175047 & 0.24458038 & 0.39892057\\
+						X3 & 1.28747999 & 0.66677122 & 1.90818877\\
+						\hline
+					\end{tabular}
+				\end{center}
+			These values can be computed from the equation on page 576 as well. Since we were given the standard error values, we just multiple $s_{\epsilon}$ and $t_{\alpha/2,n-2}$ together and add/subtract from the parameter values. We obtain the same results.\\[1mm]
+			Next, we are asked to obtain a plot of the residuals against each predictor variable. For this we simply find the predicted values using our regression equation, then find the residuals by subtracting them from the actual salaries (in thousands). The table of values can be found in the SAS results. Below is a scatter plot of the values followed by a normal probability plot.
+				\begin{center}
+					\begin{tikzpicture}
+					\begin{axis}[
+					scale=1.5,
+					title=Predicted Values vs Residuals,
+    					xmin=25, xmax=55,
+    					ymin=-4, ymax=4,
+    					xlabel=Predicted Values (in Thousands),
+    					ylabel=Residuals,
+    					xmajorgrids=true,
+    					ymajorgrids=true,
+    					grid style=dashed,
+    					yticklabel style={
+        					/pgf/number format/fixed,
+        					/pgf/number format/precision=5
+						}
+					]
+					\addplot [only marks, mark = *] table {\scatterfour};
+					\end{axis}
+				\end{tikzpicture}\vspace*{5mm}
+				\begin{tikzpicture}
+					\pgfplotsset{
+						y coord trafo/.code={\pgfmathparse{#1}
+						\pgfmathresult},
+						y coord inv trafo/.code={\pgfmathparse{((1/sqrt(2*pi))(2.71828182845)^(-(#1)^2/2)}\pgfmathresult},
+						}
+					\begin{axis}[
+						scale=1.5,
+						title=Normal Probability Plot,
+						xmajorgrids=true,
+    						ymajorgrids=true,
+    						grid style=dashed,
+						xlabel=Resdiuals,
+						yticklabels={,.001,.01,.05,.2,.5,.8,.95,.99,.999},
+						ylabel=Probability,
+						]
+   					\addplot [only marks, mark = *, color=blue!50!white] table {\scatterfive};
+   					\addplot [thin, blue] table[
+   						y={create col/linear regression={y=Y}}
+   						]{\scatterfive};
+					\end{axis}
+				\end{tikzpicture}
+			\end{center}
+			From our plots above we can see that the residuals in fact follow a normal distribution trend. The points are tightly packed against the trend line. That conclusion leads us to believe we will not need to transform the data, and we can use our linear model for future predictions. The residual data and conclusions can also be found from the SAS data above. I used the \texttt{reg} procedure with the \texttt{cli} option to obtain the data.
+		\end{adjustwidth}
+\end{document}
